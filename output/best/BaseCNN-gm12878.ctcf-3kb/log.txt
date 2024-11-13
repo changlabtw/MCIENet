@@ -1,0 +1,201 @@
+[update config]
+
+====================
+[arguments]
+config='output/best/old/BaseCNN-gm12878.ctcf-3kb/configures.yaml', input='data/train/gm12878_ctcf/3000bp.50ms.onehot/data.h5', output_folder='output/2024.10.05_basecnn_3000bp-rerun-best', device='cuda', eval_freq=1, pin_memory_train=True, save_epoch_out=False, use_state_dict=False, retain_defualt_config=True, save_pred_result=False, model_file='output/2024.10.05_basecnn_3000bp-rerun-best/model.pkl', data={'input_type': 'onehot', 'anchor_size': 3000, 'anchor_dim': 2}, train={'max_epoch': 50, 'patience': 5, 'batch_size': 200, 'val_batch_size': 500, 'learning_rate': 0.001, 'decay_epoch': 50, 'decay_rate': 0.5, 'optimizer': 'adam'}, model={'extractor_mode': 'concat', 'extractor_model': 'cnn', 'extractor_in_dim': 6000, 'extractor_hidden_size': 200, 'extractor_output_dim': 300, 'extractor_in_ch': 4, 'extractor_conv_kernel_size': 8, 'extractor_conv_stride': 1, 'extractor_mp_kernel_size': 4, 'extractor_mp_stride': 4, 'extractor_activite_func': 'leaky_relu', 'extractor_slope': 0.01, 'extractor_pool_type': 'max', 'extractor_feature_aggregation': 'fc', 'extractor_feature_agg_rate': 0.5, 'extractor_flatten': False, 'extractor_dropout': 0.3, 'extractor_bn': False, 'extractor_bn_eps': 1e-05, 'extractor_bn_momentum': 0.1, 'classifier_input_dim': 300, 'classifier_output_dim': 2, 'classifier_hidden_size': 300, 'classifier_hidden_layer': 3, 'classifier_activite_func': 'leaky_relu', 'classifier_slope': 0.01, 'classifier_dropout': 0.5, 'classifier_bn': False, 'classifier_bn_eps': 1e-05, 'classifier_bn_momentum': 0.1}
+
+[System Info]
+Computer network name: 251afecb99d9
+Machine type: x86_64
+Processor type: x86_64
+Platform type: Linux-5.15.154+-x86_64-with-glibc2.35
+Number of physical cores: 2
+Number of logical cores: 4
+Max CPU frequency: 0.0
+Train with the cuda(Tesla P100-PCIE-16GB)
+====================
+loading data...
+data shape:
+
+	(train)(237888, 2, 4, 3000)
+
+	(val)(27762, 2, 4, 3000)
+
+	(test)(58836, 2, 4, 3000)
+
+data loaded!
+====================
+compiling model...
+LoopModel(
+  (data_extractor): CNN(
+    (conv1): CNNLayer(
+      (conv): Conv1d(4, 200, kernel_size=(8,), stride=(1,))
+      (activite_func): LeakyReLU(negative_slope=0.01)
+      (dropout): Dropout(p=0.3, inplace=False)
+      (pool): MaxPool1d(kernel_size=4, stride=4, padding=0, dilation=1, ceil_mode=False)
+    )
+    (conv2): CNNLayer(
+      (conv): Conv1d(200, 200, kernel_size=(8,), stride=(1,))
+      (activite_func): LeakyReLU(negative_slope=0.01)
+      (dropout): Dropout(p=0.3, inplace=False)
+      (pool): MaxPool1d(kernel_size=4, stride=4, padding=0, dilation=1, ceil_mode=False)
+    )
+    (fc_f_agg): Sequential(
+      (0): Linear(in_features=372, out_features=186, bias=True)
+      (1): LeakyReLU(negative_slope=0.01)
+    )
+    (fc_ch): Sequential(
+      (0): Linear(in_features=186, out_features=1, bias=True)
+      (1): LeakyReLU(negative_slope=0.01)
+    )
+    (fc_out): Sequential(
+      (0): Linear(in_features=200, out_features=300, bias=True)
+      (1): LeakyReLU(negative_slope=0.01)
+    )
+  )
+  (classifier): FeedForward(
+    (hidden_net): Sequential(
+      (hidden_0): Linear(in_features=300, out_features=300, bias=True)
+      (activite_func_0): LeakyReLU(negative_slope=0.01)
+      (dropout_0): Dropout(p=0.5, inplace=False)
+      (hidden_1): Linear(in_features=300, out_features=300, bias=True)
+      (activite_func_1): LeakyReLU(negative_slope=0.01)
+      (dropout_1): Dropout(p=0.5, inplace=False)
+      (hidden_2): Linear(in_features=300, out_features=300, bias=True)
+      (activite_func_2): LeakyReLU(negative_slope=0.01)
+      (dropout_2): Dropout(p=0.5, inplace=False)
+    )
+    (out): Linear(in_features=300, out_features=2, bias=True)
+  )
+)
+==========
+==================================================================================================================================================================
+Layer (type (var_name):depth-idx)                  Input Shape      Output Shape     Param #          Param %          Kernel Shape     Mult-Adds        Trainable
+==================================================================================================================================================================
+LoopModel (LoopModel)                              [200, 2, 4, 3000] [200, 2]         --                    --          --               --               True
++ CNN (data_extractor): 1-1                        [200, 4, 6000]   [200, 300]       --                    --          --               --               True
+|    + CNNLayer (conv1): 2-1                       [200, 4, 6000]   [200, 200, 1498] --                    --          --               --               True
+|    |    + Conv1d (conv): 3-1                     [200, 4, 6000]   [200, 200, 5993] 6,600              0.91%          [8]              7,910,760,000    True
+|    |    + LeakyReLU (activite_func): 3-2         [200, 200, 5993] [200, 200, 5993] --                    --          --               --               --
+|    |    + Dropout (dropout): 3-3                 [200, 200, 5993] [200, 200, 5993] --                    --          --               --               --
+|    |    + MaxPool1d (pool): 3-4                  [200, 200, 5993] [200, 200, 1498] --                    --          4                --               --
+|    + CNNLayer (conv2): 2-2                       [200, 200, 1498] [200, 200, 372]  --                    --          --               --               True
+|    |    + Conv1d (conv): 3-5                     [200, 200, 1498] [200, 200, 1491] 320,200           43.97%          [8]              95,483,640,000   True
+|    |    + LeakyReLU (activite_func): 3-6         [200, 200, 1491] [200, 200, 1491] --                    --          --               --               --
+|    |    + Dropout (dropout): 3-7                 [200, 200, 1491] [200, 200, 1491] --                    --          --               --               --
+|    |    + MaxPool1d (pool): 3-8                  [200, 200, 1491] [200, 200, 372]  --                    --          4                --               --
+|    + Sequential (fc_f_agg): 2-3                  [200, 200, 372]  [200, 200, 186]  --                    --          --               --               True
+|    |    + Linear (0): 3-9                        [200, 200, 372]  [200, 200, 186]  69,378             9.53%          --               13,875,600       True
+|    |    + LeakyReLU (1): 3-10                    [200, 200, 186]  [200, 200, 186]  --                    --          --               --               --
+|    + Sequential (fc_ch): 2-4                     [200, 200, 186]  [200, 200, 1]    --                    --          --               --               True
+|    |    + Linear (0): 3-11                       [200, 200, 186]  [200, 200, 1]    187                0.03%          --               37,400           True
+|    |    + LeakyReLU (1): 3-12                    [200, 200, 1]    [200, 200, 1]    --                    --          --               --               --
+|    + Sequential (fc_out): 2-5                    [200, 200]       [200, 300]       --                    --          --               --               True
+|    |    + Linear (0): 3-13                       [200, 200]       [200, 300]       60,300             8.28%          --               12,060,000       True
+|    |    + LeakyReLU (1): 3-14                    [200, 300]       [200, 300]       --                    --          --               --               --
++ FeedForward (classifier): 1-2                    [200, 300]       [200, 2]         --                    --          --               --               True
+|    + Sequential (hidden_net): 2-6                [200, 300]       [200, 300]       --                    --          --               --               True
+|    |    + Linear (hidden_0): 3-15                [200, 300]       [200, 300]       90,300            12.40%          --               18,060,000       True
+|    |    + LeakyReLU (activite_func_0): 3-16      [200, 300]       [200, 300]       --                    --          --               --               --
+|    |    + Dropout (dropout_0): 3-17              [200, 300]       [200, 300]       --                    --          --               --               --
+|    |    + Linear (hidden_1): 3-18                [200, 300]       [200, 300]       90,300            12.40%          --               18,060,000       True
+|    |    + LeakyReLU (activite_func_1): 3-19      [200, 300]       [200, 300]       --                    --          --               --               --
+|    |    + Dropout (dropout_1): 3-20              [200, 300]       [200, 300]       --                    --          --               --               --
+|    |    + Linear (hidden_2): 3-21                [200, 300]       [200, 300]       90,300            12.40%          --               18,060,000       True
+|    |    + LeakyReLU (activite_func_2): 3-22      [200, 300]       [200, 300]       --                    --          --               --               --
+|    |    + Dropout (dropout_2): 3-23              [200, 300]       [200, 300]       --                    --          --               --               --
+|    + Linear (out): 2-7                           [200, 300]       [200, 2]         602                0.08%          --               120,400          True
+==================================================================================================================================================================
+Total params: 728,167
+Trainable params: 728,167
+Non-trainable params: 0
+Total mult-adds (G): 103.47
+==================================================================================================================================================================
+Input size (MB): 19.20
+Forward/backward pass size (MB): 2456.64
+Params size (MB): 2.91
+Estimated Total Size (MB): 2478.76
+==================================================================================================================================================================
+model loaded!
+====================
+training model...
+
+2024-10-05 16:29:23 | epoch: 1/50, train loss: 0.4412, val_loss: 0.3586 | training time: 256.5s, inference time: 8.9s
+-> Val Loss decrease from inf to 0.358582, saving model
+
+2024-10-05 16:33:51 | epoch: 2/50, train loss: 0.2980, val_loss: 0.2995 | training time: 256.0s, inference time: 9.0s
+-> Val Loss decrease from 0.358582 to 0.299535, saving model
+
+2024-10-05 16:38:20 | epoch: 3/50, train loss: 0.2676, val_loss: 0.2612 | training time: 255.7s, inference time: 9.0s
+-> Val Loss decrease from 0.299535 to 0.261217, saving model
+
+2024-10-05 16:42:49 | epoch: 4/50, train loss: 0.2450, val_loss: 0.2540 | training time: 256.2s, inference time: 9.0s
+-> Val Loss decrease from 0.261217 to 0.253989, saving model
+
+2024-10-05 16:47:17 | epoch: 5/50, train loss: 0.2240, val_loss: 0.2704 | training time: 256.1s, inference time: 9.0s
+
+2024-10-05 16:51:46 | epoch: 6/50, train loss: 0.2119, val_loss: 0.2293 | training time: 255.8s, inference time: 9.0s
+-> Val Loss decrease from 0.253989 to 0.229261, saving model
+
+2024-10-05 16:56:14 | epoch: 7/50, train loss: 0.2024, val_loss: 0.2501 | training time: 255.8s, inference time: 8.9s
+
+2024-10-05 17:00:42 | epoch: 8/50, train loss: 0.1933, val_loss: 0.2422 | training time: 255.2s, inference time: 8.9s
+
+2024-10-05 17:05:10 | epoch: 9/50, train loss: 0.1871, val_loss: 0.2523 | training time: 256.0s, inference time: 9.0s
+
+2024-10-05 17:09:38 | epoch: 10/50, train loss: 0.1803, val_loss: 0.2595 | training time: 255.2s, inference time: 9.0s
+
+2024-10-05 17:14:06 | epoch: 11/50, train loss: 0.1728, val_loss: 0.2512 | training time: 255.6s, inference time: 8.8s
+early stop at epoch: 0010
+training finish
+
+calculating evaluation...
+data shape:
+
+	(train)(237888, 2, 4, 3000)
+
+	(val)(27762, 2, 4, 3000)
+
+	(test)(58836, 2, 4, 3000)
+
+[train]
+loss: 0.1877
+acc: 0.928
+timeuse: 76.3655
+Precision: 0.7823
+Recall: 0.7869
+Weighted_Precision: 0.9282
+Balanced_acc: 0.8715
+F1: 0.7846
+matthews_corrcoef: 0.7413
+auPRCs: 0.8574
+auROC: 0.9599
+
+[val]
+loss: 0.2293
+acc: 0.9058
+timeuse: 8.9415
+Precision: 0.7221
+Recall: 0.7072
+Weighted_Precision: 0.9051
+Balanced_acc: 0.8264
+F1: 0.7146
+matthews_corrcoef: 0.6582
+auPRCs: 0.7769
+auROC: 0.9334
+
+[test]
+loss: 0.2248
+acc: 0.9058
+timeuse: 18.6686
+Precision: 0.7178
+Recall: 0.7162
+Weighted_Precision: 0.9057
+Balanced_acc: 0.8299
+F1: 0.717
+matthews_corrcoef: 0.6605
+auPRCs: 0.7825
+auROC: 0.9378
+
+finished!!!
+

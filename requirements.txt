@@ -1,0 +1,26 @@
+# general
+tqdm
+h5py
+psutil
+numpy
+pandas
+PyYAML
+torchinfo
+
+# visualization
+seaborn
+matplotlib
+
+# ML
+scikit-learn
+
+# Bio
+biopython>=1.78
+
+# seqlogo
+logomaker
+
+# pytorch-grad-cam
+captum
+torch>=1.7.1
+torchvision>=0.8.2

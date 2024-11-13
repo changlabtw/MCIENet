@@ -1,0 +1,65 @@
+config: conf/MCIENet_final/helas3_ks7.9-cr0.10.0-none_3000bp.yaml
+input: data/train/helas3_ctcf/3000bp.50ms.onehot/data.h5
+output_folder: output/2024.08.26_cnn_hyper-test-final-helas3_ks7.9-cr0.10.0-none_1000bp/Bp3000_Hl3_Hs100_CHs400_ClfDrop0.5_ExtDrop0.3
+device: cuda
+eval_freq: 1
+pin_memory_train: true
+save_epoch_out: false
+use_state_dict: false
+retain_defualt_config: true
+save_pred_result: false
+model_file: output/2024.08.26_cnn_hyper-test-final-helas3_ks7.9-cr0.10.0-none_1000bp/Bp3000_Hl3_Hs100_CHs400_ClfDrop0.5_ExtDrop0.3/model.pkl
+data:
+  input_type: onehot
+  anchor_size: 3000
+  anchor_dim: 2
+train:
+  max_epoch: 50
+  patience: 5
+  batch_size: 200
+  val_batch_size: 500
+  learning_rate: 0.001
+  decay_epoch: 50
+  decay_rate: 0.5
+  optimizer: adam
+model:
+  extractor_mode: concat
+  extractor_model: mcienet
+  extractor_input_lenght: 6000
+  extractor_total_channels: 400
+  extractor_output_dim: 100
+  extractor_in_channels: 4
+  extractor_info_retent_chs: 0
+  extractor_info_ext_chs_ls:
+  - 0.5
+  - 0.5
+  extractor_info_ext_ks_ls:
+  - 7
+  - 9
+  extractor_info_ext_dilation_ls:
+  - 1
+  - 1
+  extractor_pool_proj_chs_ls: []
+  extractor_pool_proj_ks_ls: []
+  extractor_pool_proj_dilation_ls: []
+  extractor_pool_proj_type_ls: []
+  extractor_dim_reduction_pool_ks: 4
+  extractor_dim_reduction_pool_stride: 4
+  extractor_feature_agg: fc
+  extractor_feature_agg_rate: 0.5
+  extractor_activite_func: leaky_relu
+  extractor_slope: 0.01
+  extractor_dropout: 0.3
+  classifier_input_dim: 100
+  classifier_output_dim: 2
+  classifier_hidden_size: 100
+  classifier_hidden_layer: 3
+  classifier_activite_func: leaky_relu
+  classifier_slope: 0.01
+  classifier_dropout: 0.5
+  classifier_bn: false
+  classifier_bn_eps: 1.0e-05
+  classifier_bn_momentum: 0.1
+  extractor_total_channels(defualt): 100
+  extractor_dropout(defualt): 0.5
+  classifier_hidden_layer(defualt): 2

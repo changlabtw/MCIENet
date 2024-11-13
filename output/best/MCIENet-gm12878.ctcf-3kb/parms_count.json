@@ -1,0 +1,7 @@
+{
+  "total": 203379,
+  "extractor": 182977,
+  "classifier": 20402,
+  "ext_ratio": 0.9,
+  "clf_ratio": 0.1
+}

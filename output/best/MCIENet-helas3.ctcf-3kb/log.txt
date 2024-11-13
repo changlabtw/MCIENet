@@ -1,0 +1,249 @@
+[update config]
+
+model.extractor_total_channels: 100 -> 400
+
+model.extractor_dropout: 0.5 -> 0.3
+
+model.classifier_hidden_layer: 2 -> 3
+
+====================
+[arguments]
+config='conf/MCIENet_final/helas3_ks7.9-cr0.10.0-none_3000bp.yaml', input='data/train/helas3_ctcf/3000bp.50ms.onehot/data.h5', output_folder='output/2024.08.26_cnn_hyper-test-final-helas3_ks7.9-cr0.10.0-none_1000bp/Bp3000_Hl3_Hs100_CHs400_ClfDrop0.5_ExtDrop0.3', device='cuda', eval_freq=1, pin_memory_train=True, save_epoch_out=False, use_state_dict=False, retain_defualt_config=True, save_pred_result=False, model_file='output/2024.08.26_cnn_hyper-test-final-helas3_ks7.9-cr0.10.0-none_1000bp/Bp3000_Hl3_Hs100_CHs400_ClfDrop0.5_ExtDrop0.3/model.pkl', data={'input_type': 'onehot', 'anchor_size': 3000, 'anchor_dim': 2}, train={'max_epoch': 50, 'patience': 5, 'batch_size': 200, 'val_batch_size': 500, 'learning_rate': 0.001, 'decay_epoch': 50, 'decay_rate': 0.5, 'optimizer': 'adam'}, model={'extractor_mode': 'concat', 'extractor_model': 'mcienet', 'extractor_input_lenght': 6000, 'extractor_total_channels': 400, 'extractor_output_dim': 100, 'extractor_in_channels': 4, 'extractor_info_retent_chs': 0, 'extractor_info_ext_chs_ls': [0.5, 0.5], 'extractor_info_ext_ks_ls': [7, 9], 'extractor_info_ext_dilation_ls': [1, 1], 'extractor_pool_proj_chs_ls': [], 'extractor_pool_proj_ks_ls': [], 'extractor_pool_proj_dilation_ls': [], 'extractor_pool_proj_type_ls': [], 'extractor_dim_reduction_pool_ks': 4, 'extractor_dim_reduction_pool_stride': 4, 'extractor_feature_agg': 'fc', 'extractor_feature_agg_rate': 0.5, 'extractor_activite_func': 'leaky_relu', 'extractor_slope': 0.01, 'extractor_dropout': 0.3, 'classifier_input_dim': 100, 'classifier_output_dim': 2, 'classifier_hidden_size': 100, 'classifier_hidden_layer': 3, 'classifier_activite_func': 'leaky_relu', 'classifier_slope': 0.01, 'classifier_dropout': 0.5, 'classifier_bn': False, 'classifier_bn_eps': 1e-05, 'classifier_bn_momentum': 0.1}
+
+[System Info]
+Computer network name: vm1724649899556-4876827-iaas
+Machine type: x86_64
+Processor type: x86_64
+Platform type: Linux-6.8.0-36-generic-x86_64-with-glibc2.39
+Number of physical cores: 16
+Number of logical cores: 16
+Max CPU frequency: 0.0
+Train with the cuda(Tesla V100-SXM2-32GB)
+====================
+loading data...
+data shape:
+
+	(train)(125627, 2, 4, 3000)
+
+	(val)(16829, 2, 4, 3000)
+
+	(test)(29447, 2, 4, 3000)
+
+data loaded!
+====================
+compiling model...
+LoopModel(
+  (data_extractor): MCIENet(
+    (Inception1): InceptionLayer(
+      (info_ext_branchs): ModuleList(
+        (0): Sequential(
+          (channel_adjust_layer): BasicConv1d(
+            (conv): Conv1d(4, 200, kernel_size=(1,), stride=(1,), bias=False)
+            (activite_func): LeakyReLU(negative_slope=0.01)
+            (dropout): Dropout(p=0.3, inplace=False)
+          )
+          (info_extract_layer): BasicConv1d(
+            (conv): Conv1d(200, 200, kernel_size=(7,), stride=(1,), padding=(3,), bias=False)
+            (activite_func): LeakyReLU(negative_slope=0.01)
+            (dropout): Dropout(p=0.3, inplace=False)
+          )
+        )
+        (1): Sequential(
+          (channel_adjust_layer): BasicConv1d(
+            (conv): Conv1d(4, 200, kernel_size=(1,), stride=(1,), bias=False)
+            (activite_func): LeakyReLU(negative_slope=0.01)
+            (dropout): Dropout(p=0.3, inplace=False)
+          )
+          (info_extract_layer): BasicConv1d(
+            (conv): Conv1d(200, 200, kernel_size=(9,), stride=(1,), padding=(4,), bias=False)
+            (activite_func): LeakyReLU(negative_slope=0.01)
+            (dropout): Dropout(p=0.3, inplace=False)
+          )
+        )
+      )
+      (pool_proj_branchs): ModuleList()
+      (dim_reduction_pool): MaxPool1d(kernel_size=4, stride=4, padding=0, dilation=1, ceil_mode=False)
+    )
+    (Inception2): InceptionLayer(
+      (info_ext_branchs): ModuleList(
+        (0): Sequential(
+          (channel_adjust_layer): BasicConv1d(
+            (conv): Conv1d(400, 200, kernel_size=(1,), stride=(1,), bias=False)
+            (activite_func): LeakyReLU(negative_slope=0.01)
+            (dropout): Dropout(p=0.3, inplace=False)
+          )
+          (info_extract_layer): BasicConv1d(
+            (conv): Conv1d(200, 200, kernel_size=(7,), stride=(1,), padding=(3,), bias=False)
+            (activite_func): LeakyReLU(negative_slope=0.01)
+            (dropout): Dropout(p=0.3, inplace=False)
+          )
+        )
+        (1): Sequential(
+          (channel_adjust_layer): BasicConv1d(
+            (conv): Conv1d(400, 200, kernel_size=(1,), stride=(1,), bias=False)
+            (activite_func): LeakyReLU(negative_slope=0.01)
+            (dropout): Dropout(p=0.3, inplace=False)
+          )
+          (info_extract_layer): BasicConv1d(
+            (conv): Conv1d(200, 200, kernel_size=(9,), stride=(1,), padding=(4,), bias=False)
+            (activite_func): LeakyReLU(negative_slope=0.01)
+            (dropout): Dropout(p=0.3, inplace=False)
+          )
+        )
+      )
+      (pool_proj_branchs): ModuleList()
+      (dim_reduction_pool): MaxPool1d(kernel_size=4, stride=4, padding=0, dilation=1, ceil_mode=False)
+    )
+    (agg): Sequential(
+      (0): Linear(in_features=375, out_features=188, bias=True)
+      (1): LeakyReLU(negative_slope=0.01)
+    )
+    (fc_ch): Sequential(
+      (0): Linear(in_features=188, out_features=1, bias=True)
+      (1): LeakyReLU(negative_slope=0.01)
+    )
+    (fc_out): Sequential(
+      (0): Linear(in_features=400, out_features=100, bias=True)
+      (1): LeakyReLU(negative_slope=0.01)
+    )
+  )
+  (classifier): FeedForward(
+    (hidden_net): Sequential(
+      (hidden_0): Linear(in_features=100, out_features=100, bias=True)
+      (activite_func_0): LeakyReLU(negative_slope=0.01)
+      (dropout_0): Dropout(p=0.5, inplace=False)
+      (hidden_1): Linear(in_features=100, out_features=100, bias=True)
+      (activite_func_1): LeakyReLU(negative_slope=0.01)
+      (dropout_1): Dropout(p=0.5, inplace=False)
+      (hidden_2): Linear(in_features=100, out_features=100, bias=True)
+      (activite_func_2): LeakyReLU(negative_slope=0.01)
+      (dropout_2): Dropout(p=0.5, inplace=False)
+    )
+    (out): Linear(in_features=100, out_features=2, bias=True)
+  )
+)
+==========
+=================================================================================================================================================================================
+Layer (type (var_name):depth-idx)                                 Input Shape      Output Shape     Param #          Param %          Kernel Shape     Mult-Adds        Trainable
+=================================================================================================================================================================================
+LoopModel (LoopModel)                                             [200, 2, 4, 3000] [200, 2]         --                    --          --               --               True
++ MCIENet (data_extractor): 1-1                                   [200, 4, 6000]   [200, 100]       --                    --          --               --               True
+|    + InceptionLayer (Inception1): 2-1                           [200, 4, 6000]   [200, 400, 1500] --                    --          --               --               True
+|    |    + ModuleList (info_ext_branchs): 3-1                    --               --               641,600           40.53%          --               --               True
+|    |    + MaxPool1d (dim_reduction_pool): 3-2                   [200, 400, 6000] [200, 400, 1500] --                    --          4                --               --
+|    + InceptionLayer (Inception2): 2-2                           [200, 400, 1500] [200, 400, 375]  --                    --          --               --               True
+|    |    + ModuleList (info_ext_branchs): 3-3                    --               --               800,000           50.53%          --               --               True
+|    |    + MaxPool1d (dim_reduction_pool): 3-4                   [200, 400, 1500] [200, 400, 375]  --                    --          4                --               --
+|    + Sequential (agg): 2-3                                      [200, 400, 375]  [200, 400, 188]  --                    --          --               --               True
+|    |    + Linear (0): 3-5                                       [200, 400, 375]  [200, 400, 188]  70,688             4.47%          --               14,137,600       True
+|    |    + LeakyReLU (1): 3-6                                    [200, 400, 188]  [200, 400, 188]  --                    --          --               --               --
+|    + Sequential (fc_ch): 2-4                                    [200, 400, 188]  [200, 400, 1]    --                    --          --               --               True
+|    |    + Linear (0): 3-7                                       [200, 400, 188]  [200, 400, 1]    189                0.01%          --               37,800           True
+|    |    + LeakyReLU (1): 3-8                                    [200, 400, 1]    [200, 400, 1]    --                    --          --               --               --
+|    + Sequential (fc_out): 2-5                                   [200, 400]       [200, 100]       --                    --          --               --               True
+|    |    + Linear (0): 3-9                                       [200, 400]       [200, 100]       40,100             2.53%          --               8,020,000        True
+|    |    + LeakyReLU (1): 3-10                                   [200, 100]       [200, 100]       --                    --          --               --               --
++ FeedForward (classifier): 1-2                                   [200, 100]       [200, 2]         --                    --          --               --               True
+|    + Sequential (hidden_net): 2-6                               [200, 100]       [200, 100]       --                    --          --               --               True
+|    |    + Linear (hidden_0): 3-11                               [200, 100]       [200, 100]       10,100             0.64%          --               2,020,000        True
+|    |    + LeakyReLU (activite_func_0): 3-12                     [200, 100]       [200, 100]       --                    --          --               --               --
+|    |    + Dropout (dropout_0): 3-13                             [200, 100]       [200, 100]       --                    --          --               --               --
+|    |    + Linear (hidden_1): 3-14                               [200, 100]       [200, 100]       10,100             0.64%          --               2,020,000        True
+|    |    + LeakyReLU (activite_func_1): 3-15                     [200, 100]       [200, 100]       --                    --          --               --               --
+|    |    + Dropout (dropout_1): 3-16                             [200, 100]       [200, 100]       --                    --          --               --               --
+|    |    + Linear (hidden_2): 3-17                               [200, 100]       [200, 100]       10,100             0.64%          --               2,020,000        True
+|    |    + LeakyReLU (activite_func_2): 3-18                     [200, 100]       [200, 100]       --                    --          --               --               --
+|    |    + Dropout (dropout_2): 3-19                             [200, 100]       [200, 100]       --                    --          --               --               --
+|    + Linear (out): 2-7                                          [200, 100]       [200, 2]         202                0.01%          --               40,400           True
+=================================================================================================================================================================================
+Total params: 1,583,079
+Trainable params: 1,583,079
+Non-trainable params: 0
+Total mult-adds (Units.TERABYTES): 1.01
+=================================================================================================================================================================================
+Input size (MB): 19.20
+Forward/backward pass size (MB): 9721.60
+Params size (MB): 6.33
+Estimated Total Size (MB): 9747.14
+=================================================================================================================================================================================
+model loaded!
+====================
+training model...
+
+2024-08-26 17:21:39 | epoch: 1/50, train loss: 0.4615, val_loss: 0.4511 | training time: 329.7s, inference time: 10.2s
+-> Val Loss decrease from inf to 0.451134, saving model
+
+2024-08-26 17:27:19 | epoch: 2/50, train loss: 0.3452, val_loss: 0.2761 | training time: 329.7s, inference time: 10.2s
+-> Val Loss decrease from 0.451134 to 0.276062, saving model
+
+2024-08-26 17:33:00 | epoch: 3/50, train loss: 0.2592, val_loss: 0.2428 | training time: 329.5s, inference time: 10.2s
+-> Val Loss decrease from 0.276062 to 0.242784, saving model
+
+2024-08-26 17:38:40 | epoch: 4/50, train loss: 0.2171, val_loss: 0.2177 | training time: 329.8s, inference time: 10.2s
+-> Val Loss decrease from 0.242784 to 0.217662, saving model
+
+2024-08-26 17:44:21 | epoch: 5/50, train loss: 0.1975, val_loss: 0.2058 | training time: 329.7s, inference time: 10.2s
+-> Val Loss decrease from 0.217662 to 0.205846, saving model
+
+2024-08-26 17:50:01 | epoch: 6/50, train loss: 0.1807, val_loss: 0.2102 | training time: 329.9s, inference time: 10.2s
+
+2024-08-26 17:55:42 | epoch: 7/50, train loss: 0.1623, val_loss: 0.2161 | training time: 329.5s, inference time: 10.2s
+
+2024-08-26 18:01:23 | epoch: 8/50, train loss: 0.1439, val_loss: 0.2368 | training time: 329.9s, inference time: 10.2s
+
+2024-08-26 18:07:03 | epoch: 9/50, train loss: 0.1263, val_loss: 0.2605 | training time: 329.7s, inference time: 10.2s
+
+2024-08-26 18:12:44 | epoch: 10/50, train loss: 0.1117, val_loss: 0.2712 | training time: 330.0s, inference time: 10.2s
+early stop at epoch: 0009
+training finish
+
+calculating evaluation...
+data shape:
+
+	(train)(125627, 2, 4, 3000)
+
+	(val)(16829, 2, 4, 3000)
+
+	(test)(29447, 2, 4, 3000)
+
+[train]
+loss: 0.1679
+acc: 0.9338
+timeuse: 76.4086
+Precision: 0.8231
+Recall: 0.7679
+Weighted_Precision: 0.9324
+Balanced_acc: 0.8675
+F1: 0.7945
+matthews_corrcoef: 0.7558
+auPRCs: 0.8701
+auROC: 0.9676
+
+[val]
+loss: 0.2058
+acc: 0.9154
+timeuse: 10.1948
+Precision: 0.7552
+Recall: 0.7282
+Weighted_Precision: 0.9142
+Balanced_acc: 0.8405
+F1: 0.7415
+matthews_corrcoef: 0.6911
+auPRCs: 0.815
+auROC: 0.9484
+
+[test]
+loss: 0.2133
+acc: 0.9149
+timeuse: 17.8251
+Precision: 0.7629
+Recall: 0.71
+Weighted_Precision: 0.9128
+Balanced_acc: 0.8329
+F1: 0.7355
+matthews_corrcoef: 0.6855
+auPRCs: 0.8029
+auROC: 0.9437
+
+finished!!!
+
