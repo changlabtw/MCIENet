@@ -149,14 +149,6 @@ class DNAseq:
         else:
             mat = seq
 
-        # parts = []
-        # for i in range(0, len(seq), 500):
-        #     if i + 1000 >= len(seq):
-        #         break
-        #     parts.append(mat[:, i:i + 1000])
-        # parts.append(mat[:, -1000:])
-        # parts = np.array(parts, dtype='float32')
-
         return mat
 
     def get_seq_encode(
@@ -346,7 +338,6 @@ def load_pairs(
         "test": {"pairs": test_pairs, "labels": test_labels},
     }
 
-    # saveJson(pair_dt, os.path.join(out_dir, "pair_dt.json"))
 
     info_dt["data_num"] = {k: len(v["labels"]) for k, v in pair_dt.items()}
 
