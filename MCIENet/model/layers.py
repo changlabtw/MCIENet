@@ -1,3 +1,9 @@
+"""
+Author: yen-nan ho
+Contact: aaron1aaron2@gmail.com
+Create Date: 2024.06.21
+Last Update: 2024.08.28
+"""
 import torch
 import torch.nn as nn
 
