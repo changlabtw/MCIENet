@@ -1,3 +1,9 @@
+"""
+Author: yen-nan ho
+Contact: aaron1aaron2@gmail.com
+Create Date: 2024.06.21
+Last Update: 2024.10.13
+"""
 import os
 import re
 import sys
