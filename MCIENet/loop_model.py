@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 
 from .model.classifier import FeedForward
-from .model.data_extractor import CNN, MCIENet, Transformer
+from .model.data_extractor import CNN, MCIENet
 
 from .utils.torch_utils import *
 
@@ -37,7 +37,6 @@ class LoopModel(nn.Module):
     def __get_model(self, name:str) -> nn.modules:
         models = {
             'cnn': CNN,
-            'transformer': Transformer,
             'mcienet': MCIENet
         }
 
