@@ -1,5 +1,6 @@
 # MCIENet
- MCIENet: Multi-scale CNN-based Information Extraction from DNA Sequences for 3D chromatin interactions Prediction
+MCIENet: Multi-scale CNN-based Information Extraction from DNA Sequences for 3D chromatin interactions Prediction
+
 ![](figures/fig1-a_Workflow.png)
 
 ## Reference
