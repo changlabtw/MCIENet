@@ -1,3 +1,6 @@
+@REM directly using dnabert pretrain model to generate Feature vector as input
+@REM the result of this method is worse than using onehot encoding, not used in benchmark
+
 python data_helper.py -m dnabert -s 2000 --min_size 50 ^
                       --pos_files out_dir/gm12878_ctcf/pairs/gm12878_ctcf.clustered_interactions.both_dnase.bedpe ^
                       --neg_files out_dir/gm12878_ctcf/pairs/gm12878_ctcf.neg_pairs_5x.from_singleton_inter_tf_random.bedpe ^
