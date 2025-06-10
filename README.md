@@ -4,29 +4,41 @@ MCIENet: Multi-scale CNN-based Information Extraction from DNA Sequences for 3D 
 ![](figures/fig1-a_Workflow.png)
 
 # get started
-## setup environment
-### use docker
-建立容器，並進入容器
+## clone the repository
 ```shell
-# 構建並啟動容器（後台運行）
+git clone https://github.com/aaron-ho/MCIENet.git
+```
+
+## setup environment
+### 1. use docker
+**you may need to Install  `docker` and `docker-compose` first**
+
+
+Create and enter the container
+```shell
+# Build and start the container (in background)
 docker-compose -f docker/docker-compose.yml up -d
 
-# 進入容器
+# Enter the container
 docker-compose -f docker/docker-compose.yml exec mcienet /bin/bash
-```
-你可以開始在 command line 使用 MCIENet 了
 
-退出容器
+# You can now use MCIENet in the command line ...
+```
+exit and remove the container
+
 ```shell
+# To exit the container
 exit
-```
 
-停止並刪除容器
-```shell
+# To stop and remove the container
 docker-compose -f docker/docker-compose.yml down
 ```
+Useful Commands
+- `pause`: Temporarily freeze container state for quick resumption
+- `stop`: Gracefully stop the container and release resources
+- `down`: Stop and remove containers
 
-### use scripts
+### 2. use scripts
 ```shell
 call "scripts\env\Win\set-env_conda.bat" # conda
 call "scripts\env\Win\set-env_venv.bat" # venv
