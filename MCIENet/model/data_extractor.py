@@ -7,6 +7,7 @@ from .utils import get_activite_func
 
 
 class MCIENet(nn.Module):
+    """"""
     def __init__(self, input_lenght: int, in_channels: int, output_dim: int, 
                  feature_agg: str = 'fc', feature_agg_rate: float = 0, **kwargs):
 
