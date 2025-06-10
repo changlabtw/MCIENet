@@ -1,0 +1,36 @@
+#!/bin/bash
+
+base_pair=1000
+
+python train.py \
+    --config "conf/base-CNN_${base_pair}bp.yaml" \
+    --input "data/train/helas3_ctcf/${base_pair}bp.50ms.onehot/data.h5" \
+    --output_folder "output/test/BaseCNN" \
+    --device gpu \
+    --eval_freq 1 \
+    --pin_memory_train True \
+    --use_state_dict True \
+    --train.learning_rate 0.001 \
+    --model.extractor_hidden_size 10 \
+    --model.extractor_output_dim 10 \
+    --model.extractor_conv_kernel_size 8 \
+    --model.extractor_conv_stride 1 \
+    --model.extractor_mp_kernel_size 4 \
+    --model.extractor_mp_stride 4 \
+    --model.extractor_activite_func "gelu" \
+    --model.extractor_pool_type "max" \
+    --model.extractor_dropout 0.5 \
+    --model.extractor_bn True \
+    --model.extractor_bn_eps 0.0001 \
+    --model.extractor_bn_momentum 0.01 \
+    --model.extractor_feature_aggregation "maxpool" \
+    --model.extractor_feature_agg_rate 0 \
+    --model.extractor_flatten False \
+    --model.classifier_input_dim 10 \
+    --model.classifier_hidden_size 20 \
+    --model.classifier_hidden_layer 3 \
+    --model.classifier_activite_func "leaky_relu" \
+    --model.classifier_dropout 0.0 \
+    --model.classifier_bn True \
+    --model.classifier_bn_eps 0.00001 \
+    --model.classifier_bn_momentum 0.5
