@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  mcienet:
+    container_name: mcienet_dev  # 設置容器名稱
+    build:
+      context: ..  # 將 context 設為專案根目錄
+      dockerfile: docker/Dockerfile  # 指定 Dockerfile 路徑
+    runtime: nvidia  # 啟用 GPU 支持
+    volumes:
+      # 使用 Windows 路徑格式，並確保使用正斜杠
+      - ..:/app
+      # 明確掛載 output 目錄
+      - ../output:/app/output
+    working_dir: /app  # 設置工作目錄
+    environment:
+      - PYTHONPATH=/app
+      - CUDA_VISIBLE_DEVICES=0
+    tty: true  # 保持容器運行
+    stdin_open: true  # 保持標準輸入開啟
