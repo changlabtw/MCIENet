@@ -3,27 +3,35 @@ MCIENet: Multi-scale CNN-based Information Extraction from DNA Sequences for 3D 
 
 ![](figures/fig1-a_Workflow.png)
 
+# get started
 ## setup environment
-### docker
+### use docker
+建立容器，並進入容器
 ```shell
 # 構建並啟動容器（後台運行）
-docker-compose up -d
+docker-compose -f docker/docker-compose.yml up -d
 
 # 進入容器
-docker-compose exec mcienet /bin/bash
+docker-compose -f docker/docker-compose.yml exec mcienet /bin/bash
 ```
+你可以開始在 command line 使用 MCIENet 了
 
-#### 停止
+退出容器
 ```shell
-docker-compose down
+exit
 ```
 
-### scripts
+停止並刪除容器
+```shell
+docker-compose -f docker/docker-compose.yml down
+```
+
+### use scripts
 ```shell
 call "scripts\env\Win\set-env_conda.bat" # conda
 call "scripts\env\Win\set-env_venv.bat" # venv
 ```
-
+## generate train data
 
 ## Reference
 - _Cao, Fan, et al. "Chromatin interaction neural network (ChINN): a machine learning-based method for predicting chromatin interactions from DNA sequences." Genome biology 22 (2021): 1-25. https://doi.org/10.1186/s13059-021-02453-5._
