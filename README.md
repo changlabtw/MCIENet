@@ -1,17 +1,32 @@
 # MCIENet
-MCIENet: Multi-scale CNN-based Information Extraction from DNA Sequences for 3D chromatin interactions Prediction
 
-![](figures/fig1-a_Workflow.png)
+MCIENet: Multi-scale CNN-based Information Extraction from DNA Sequences for 3D Chromatin Interactions Prediction
 
-# get started
-## step 0. clone the repository
+![MCIENet Workflow](figures/fig1-a_Workflow.png)
+
+## Table of Contents
+- [Getting Started](#getting-started)
+  - [Step 0: Clone the Repository](#step-0-clone-the-repository)
+  - [Step 1: Setup Environment](#step-1-setup-environment)
+  - [Step 2: Prepare Dataset](#step-2-prepare-dataset)
+    - [2.1 Generate Positive-Negative Pairs](#21-generate-pos-neg-pairs)
+    - [2.2 Generate Training Data](#22-generate-training-data)
+  - [Step 3: Model Training](#step-3-train)
+    - [3.1 BaseCNN](#31-basecnn)
+    - [3.2 MCIENet](#32-mcienet)
+  - [Step 4: Explainable AI (XAI) Analysis](#step-4-xai)
+- [References](#references)
+- [Citation](#citation)
+
+## Getting Started
+### Step 0: Clone the Repository
 ```shell
 git clone https://github.com/aaron-ho/MCIENet.git
 ```
 
-## step 1. setup environment
-### 1. use docker
-> **you may need to Install  `docker` and `docker-compose` first**
+### Step 1: Setup Environment
+#### Option 1: Using Docker (Recommended)
+**you may need to Install  `docker` and `docker-compose` first**
 
 
 Create and enter the container
@@ -38,7 +53,7 @@ Useful Commands
 - `stop`: Gracefully stop the container and release resources
 - `down`: Stop and remove containers
 
-### 2. use scripts
+#### Option 2: Manual Setup with Scripts
 Scripts is under `scripts/set_env`, you can use it to setup the environment.
 - `set-env_conda`: set up conda environment for MCIENet
 - `set-env_venv`: set up venv environment for MCIENet
@@ -46,24 +61,53 @@ Scripts is under `scripts/set_env`, you can use it to setup the environment.
 
 > **note**: these scripts just for reference, you need to customize your environment path in the script.  
 
-## step 2. generate train data
+### Step 2: Prepare Dataset
 **First, you need to make sure you are in the docker container or activated the environment**
 
 This project uses pre-processed data located in the `data/proc/` directory. The pre-processing steps have already been completed for the example dataset.
 
-### Data Structure
+#### Data Structure
 - Raw data: `data/raw/` - Contains the original input files (e.g., BED, BAM, FASTA files)
   - **Important**: You need to download the hg19 reference genome (hg19.fa) from [UCSC](https://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/) and place it in this directory before running the scripts.
 - Processed data: `data/proc/` - Contains pre-processed data ready for training
 - Training data: `data/train/` - Will contain the final training data generated from processed data
 
-### Processing Your Own Data
-If you want to process your own data, you can:
-1. Place your raw data in the `data/raw/` directory
-2. Refer to the scripts in `scripts/1_get_neg-pos_data/` for examples of how to:
-   - Process raw data into the required format
-   - Generate positive and negative sample pairs
-   - Prepare the data for training
+#### 2.1 Generate Pos-Neg Pairs
+
+The `scripts/1_get_neg-pos_data/` directory contains the data processing pipeline that transforms raw interaction data into training-ready format. This step is crucial for preparing both positive and negative samples for model training.
+
+##### Key Components:
+- `preprocess/`: Contains scripts for initial data processing
+  - `pipe.sh`: Main pipeline script that orchestrates the preprocessing steps
+  - `process_pos.sh`: Processes positive interaction samples
+  - `generate_*.py`: Python scripts for generating and processing sample pairs
+- `gm12878_ctcf.sh` and `helas3_ctcf.sh`: Example scripts demonstrating how to run the pipeline
+
+##### Requirements:
+- **BEDTools** (includes `mergeBed` and `pairToBed`):
+  - Ubuntu/Debian: `sudo apt-get install bedtools`
+  - For other systems, see [BEDTools documentation](https://bedtools.readthedocs.io/en/latest/content/installation.html)
+
+##### Processing Your Own Data
+1. Place your raw data in the `data/raw/` directory:
+   - Interaction files in BEDPE format
+   - DNase/open chromatin regions in BED format
+   - Transcription factor peaks in BED format
+
+2. Run the preprocessing pipeline:
+   ```bash
+   # Example command structure
+   ./scripts/1_get_neg-pos_data/preprocess/pipe.sh \
+       <interactions.bedpe> \
+       <dnase.bed> \
+       <tf_peaks.bed> \
+       <sample_name> \
+       <output_directory>
+   ```
+
+> **Note:** The preprocessing scripts in `scripts/1_get_neg-pos_data/preprocess/` are adapted from the [chinn](https://github.com/mjflab/chinn) repository.
+
+#### 2.2 Generate Training Data
 
 For this tutorial, we'll use the pre-processed data in `data/proc/gm12878_ctcf` to generate the training data in `data/train/gm12878_ctcf`.
 
@@ -76,23 +120,30 @@ after the script is done, you will find the train data in `data/train/gm12878_ct
 
 > **note**: this proccess need at least 4GB memory. here is example scripts for 1000bp, when we use 2000 or 3000 bp as anchor size, we need more memory.
 
-## step 3. train
-### BaseCNN
+### Step 3: Model Training
+
+#### BaseCNN Model
+
+Train the BaseCNN model:
 ```shell
 scripts/3_train/example/BaseCNN.sh
 ```
 
-### MCIENet
+#### MCIENet Model
+
+Train the MCIENet model:
 ```shell
 scripts/3_train/example/MCIENet.sh
 ```
 
-## step 4. XAI
+### Step 4: Explainable AI (XAI) Analysis
+
+Perform model interpretation using various XAI methods. Here we demonstrate using DeepLIFT:
 we can use the model we already trained under `output\best` as the model path.
 
 Here we use DeepLift as the XAI method, you can also use other methods like LIME, SHAP, etc. Details arguments can be found in `get_attr.py`.
 
-### BaseCNN
+#### BaseCNN
 ```shell
 python get_attr.py \
     --model_folder "output/best/BaseCNN-gm12878.ctcf-1kb" \
@@ -106,7 +157,7 @@ python get_attr.py \
     --use_cuda True
 ``` 
 
-### MCIENet
+#### MCIENet
 ```shell
 python get_attr.py \
     --model_folder "output/best/MCIENet-gm12878.ctcf-1kb" \
@@ -122,14 +173,14 @@ python get_attr.py \
 
 > **note**: more example scripts can be found in `scripts\4_XAI\Linux`.
 
-# Reference
+## References
 - _Cao, Fan, et al. "Chromatin interaction neural network (ChINN): a machine learning-based method for predicting chromatin interactions from DNA sequences." Genome biology 22 (2021): 1-25. https://doi.org/10.1186/s13059-021-02453-5._
   - Github: https://github.com/mjflab/chinn
 - _Zhou, Zhihan, et al. "Dnabert-2: Efficient foundation model and benchmark for multi-species genome." arXiv preprint arXiv:2306.15006 (2023). https://doi.org/10.48550/arXiv.2306.15006._
   - Github: https://github.com/MAGICS-LAB/DNABERT_2
   - Pretrain model: https://huggingface.co/zhihan1996/DNABERT-2-117M
 
-# Citation
+## Citation
 
 This version of implementation is only for learning purpose. For research, please refer to  and  cite from the following paper:
 ```
