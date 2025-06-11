@@ -1,7 +1,10 @@
-# custom
+# files
 *.ini
-test/
 hg19.fa
+
+# folders
+test/
+data/train
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
