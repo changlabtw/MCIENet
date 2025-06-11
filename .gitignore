@@ -1,6 +1,7 @@
 # custom
 *.ini
 test/
+hg19.fa
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
