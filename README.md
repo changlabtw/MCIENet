@@ -94,29 +94,29 @@ Here we use DeepLift as the XAI method, you can also use other methods like LIME
 
 ### BaseCNN
 ```shell
-CUDA_VISIBLE_DEVICES=0 python get_attr.py \
+python get_attr.py \
     --model_folder "output/best/BaseCNN-gm12878.ctcf-1kb" \
     --output_folder "output/XAI/BaseCNN-gm12878.ctcf-1kb" \
     --data_folder "data/train/gm12878_ctcf/1000bp.50ms.onehot" \
     --phases train val test \
     --batch_size 500 \
     --method "DeepLift" \
-    --crop_center 500 \ # please set it to half of the crop size
-    --crop_size 1000 \ # please set it to the anchor size.
+    --crop_center 500 \
+    --crop_size 1000 \
     --use_cuda True
 ``` 
 
 ### MCIENet
 ```shell
-CUDA_VISIBLE_DEVICES=0 python get_attr.py \
+python get_attr.py \
     --model_folder "output/best/MCIENet-gm12878.ctcf-1kb" \
     --output_folder "output/XAI/MCIENet-gm12878.ctcf-1kb" \
     --data_folder "data/train/gm12878_ctcf/1000bp.50ms.onehot" \
     --phases train val test \
     --batch_size 500 \
     --method "DeepLift" \
-    --crop_center 500 \ # please set it to half of the crop size
-    --crop_size 1000 \ # please set it to the anchor size.
+    --crop_center 500 \
+    --crop_size 1000 \
     --use_cuda True
 ``` 
 
