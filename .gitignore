@@ -6,6 +6,10 @@ hg19.fa
 test/
 data/train
 
+# output - track only the best models
+output/*
+!output/best/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
