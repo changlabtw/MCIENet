@@ -1,7 +1,9 @@
 import numpy as np
 import argparse
-from preprocess.pair_generation import load_data, get_clusters, get_neg_pairs, get_cluster_sizes, print_total_pairs
-from preprocess.pair_generation import save_neg_pairs
+from preprocess.pair_generation import (
+    load_data, get_clusters, get_neg_pairs,
+    get_cluster_sizes, print_total_pairs, save_neg_pairs
+)
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser(description="Generate random pairs of anchors")
