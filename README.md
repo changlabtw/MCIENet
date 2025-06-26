@@ -137,7 +137,7 @@ The `scripts/1_get_neg-pos_data/` directory contains the data processing pipelin
        <output_directory>
    ```
 
-> *Note: The preprocessing scripts in `scripts/1_get_neg-pos_data/preprocess/` are adapted from the [chinn](https://github.com/mjflab/chinn) repository.
+> *note: The preprocessing scripts in `scripts/1_get_neg-pos_data/preprocess/` are adapted from the [chinn](https://github.com/mjflab/chinn) repository.*
 
 #### 2.2 Generate Training Data
 
