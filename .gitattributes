@@ -3,3 +3,4 @@
 
 # Excluding the usage of abnormal languages ​​when using jupyter notebook
 *.ipynb linguist-generated=true
+*.bat linguist-generated=true
