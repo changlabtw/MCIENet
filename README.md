@@ -62,7 +62,7 @@ git clone https://github.com/aaron-ho/MCIENet.git
 
 ### Step 1: Setup Environment
 #### Option 1: Using Docker (Recommended)
-**you may need to Install  `docker` and `docker-compose` first**
+> *you may need to Install  `docker` and `docker-compose` first*
 
 
 Create and enter the container
