@@ -18,6 +18,42 @@ MCIENet: Multi-scale CNN-based Information Extraction from DNA Sequences for 3D 
 - [References](#references)
 - [Citation](#citation)
 
+## Project Structure
+
+```
+MCIENet/
+├── MCIENet/
+│   ├── model/                 # Model implementation
+│   │   ├── classifier.py      # Classifier implementation
+│   │   ├── data_extractor.py  # Data extractor
+│   │   ├── layers.py          # Custom neural network layers
+│   │   └── utils.py           # Model related utility functions
+│   │
+│   ├── utils/                 # Utility functions
+│   │
+│   ├── dataset.py             # Dataset handling
+│   ├── loop_model.py          # Model training loop
+│   └── trainer.py             # Trainer implementation
+│
+├── conf/                      # Configuration files
+├── data/                      # Dataset directory
+├── docker/                    # Docker-related files
+├── figures/                   # Figures
+├── notebook/                  # Jupyter Notebooks
+├── output/                    # Training outputs and logs
+├── scripts/                   # Utility scripts organized by workflow stages
+│   ├── 1_get_neg-pos_data/    # Scripts for generating pos/neg pairs
+│   ├── 2_generate_traindata/  # Scripts for preparing training data
+│   ├── 3_train/               # Scripts for model training
+│   ├── 4_XAI/                 # Scripts for explainable AI analysis
+│   ├── helper_scripts/        # Helper utilities
+│   └── set_env/               # Environment setup scripts
+│
+├── data_helper.py            # Data processing utilities
+├── get_attr.py               # Attribute access utilities
+└── train.py                  # Training entry point
+```
+
 ## Getting Started
 ### Step 0: Clone the Repository
 ```shell
@@ -48,10 +84,8 @@ exit
 # To stop and remove the container
 docker-compose -f docker/docker-compose.yml down
 ```
-Useful Commands
-- `pause`: Temporarily freeze container state for quick resumption
-- `stop`: Gracefully stop the container and release resources
-- `down`: Stop and remove containers
+
+> **note**: image we use will cost about 16.4GB disk space. If you don't have enough disk space, you can use option 2.
 
 #### Option 2: Manual Setup with Scripts
 Scripts is under `scripts/set_env`, you can use it to setup the environment.
@@ -64,7 +98,7 @@ Scripts is under `scripts/set_env`, you can use it to setup the environment.
 ### Step 2: Prepare Dataset
 **First, you need to make sure you are in the docker container or activated the environment**
 
-This project uses pre-processed data located in the `data/proc/` directory. The pre-processing steps have already been completed for the example dataset.
+> **note**: this project includes pre-processed data for two example datasets `gm12878 ctcf` and `helas3 ctcf` located in the `data/proc/` directory. The pre-processing steps have already been completed for these example datasets. If you plan to use these datasets, you can skip the [2.1 Generate Pos-Neg Pairs](#21-generate-pos-neg-pairs) step and proceed directly to [2.2 Generate Training Data](#22-generate-training-data).
 
 #### Data Structure
 - Raw data: `data/raw/` - Contains the original input files (e.g., BED, BAM, FASTA files)
