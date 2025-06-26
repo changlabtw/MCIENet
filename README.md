@@ -85,7 +85,7 @@ exit
 docker-compose -f docker/docker-compose.yml down
 ```
 
-> **note**: image we use will cost about 16.4GB disk space. If you don't have enough disk space, you can use option 2.
+> *note: image we use will cost about 16.4GB disk space. If you don't have enough disk space, you can use option 2.*
 
 #### Option 2: Manual Setup with Scripts
 Scripts is under `scripts/set_env`, you can use it to setup the environment.
@@ -93,12 +93,10 @@ Scripts is under `scripts/set_env`, you can use it to setup the environment.
 - `set-env_venv`: set up venv environment for MCIENet
 - `set-env_dnabert`: set up conda environment for dnabert
 
-> **note**: these scripts just for reference, you need to customize your environment path in the script.  
+> *note: these scripts just for reference, you need to customize your environment path in the script.*
 
 ### Step 2: Prepare Dataset
-**First, you need to make sure you are in the docker container or activated the environment**
-
-> **note**: this project includes pre-processed data for two example datasets `gm12878 ctcf` and `helas3 ctcf` located in the `data/proc/` directory. The pre-processing steps have already been completed for these example datasets. If you plan to use these datasets, you can skip the [2.1 Generate Pos-Neg Pairs](#21-generate-pos-neg-pairs) step and proceed directly to [2.2 Generate Training Data](#22-generate-training-data).
+this project includes pre-processed data for two example datasets `gm12878 ctcf` and `helas3 ctcf` located in the `data/proc/` directory. The pre-processing steps have already been completed for these example datasets. If you plan to use these datasets, you can skip the [2.1 Generate Pos-Neg Pairs](#21-generate-pos-neg-pairs) step and proceed directly to [2.2 Generate Training Data](#22-generate-training-data).
 
 #### Data Structure
 - Raw data: `data/raw/` - Contains the original input files (e.g., BED, BAM, FASTA files)
@@ -139,7 +137,7 @@ The `scripts/1_get_neg-pos_data/` directory contains the data processing pipelin
        <output_directory>
    ```
 
-> **Note:** The preprocessing scripts in `scripts/1_get_neg-pos_data/preprocess/` are adapted from the [chinn](https://github.com/mjflab/chinn) repository.
+> *Note: The preprocessing scripts in `scripts/1_get_neg-pos_data/preprocess/` are adapted from the [chinn](https://github.com/mjflab/chinn) repository.
 
 #### 2.2 Generate Training Data
 
@@ -152,7 +150,7 @@ scripts/2_generate_traindata/gm12878_ctcf/Linux/1000bp.onehot.sh
 
 after the script is done, you will find the train data in `data/train/gm12878_ctcf/1000bp.50ms.onehot/data.h5`.
 
-> **note**: this proccess need at least 4GB memory. here is example scripts for 1000bp, when we use 2000 or 3000 bp as anchor size, we need more memory.
+> *note: this proccess need at least 4GB memory. here is example scripts for 1000bp, when we use 2000 or 3000 bp as anchor size, we need more memory.*
 
 ### Step 3: Model Training
 
@@ -205,7 +203,7 @@ python get_attr.py \
     --use_cuda True
 ``` 
 
-> **note**: more example scripts can be found in `scripts\4_XAI\Linux`.
+> *note: more example scripts can be found in `scripts\4_XAI\Linux`.*
 
 ## References
 - _Cao, Fan, et al. "Chromatin interaction neural network (ChINN): a machine learning-based method for predicting chromatin interactions from DNA sequences." Genome biology 22 (2021): 1-25. https://doi.org/10.1186/s13059-021-02453-5._
