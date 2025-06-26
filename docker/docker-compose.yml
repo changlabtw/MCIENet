@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mcienet:
     container_name: mcienet_dev  # 設置容器名稱
