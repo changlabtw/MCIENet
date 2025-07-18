@@ -10,4 +10,4 @@ python train.py \
     --eval_freq 1 \
     --pin_memory_train True \
     --use_state_dict True \
-    --train.max_epoch 5
+    --train.max_epoch 5 
