@@ -1,7 +1,7 @@
 set "base_pair=1000"
 
 python train.py ^
-    --config "conf\base-CNN\%base_pair%bp.yaml" ^
+    --config "conf\experiment\BaseCNN\%base_pair%bp.yaml" ^
     --input "data\train\gm12878_ctcf\%base_pair%bp.50ms.onehot\data.h5" ^
     --output_folder "output\test\BaseCNN" ^
     --device gpu ^
