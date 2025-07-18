@@ -1,13 +1,13 @@
-# 開發階段優化：使用單階段構建加速開發流程
+# Development stage optimization: Using single-stage build to speed up development
 FROM pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime
 
-# 設置工作目錄
+# Set working directory
 WORKDIR /app
 
-# 先複製 requirements.txt 以利用 Docker 緩存
+# Copy requirements.txt first to leverage Docker cache
 COPY ../requirements.txt .
 
-# 安裝系統依賴和 Python 套件
+# Install system dependencies and Python packages
 RUN apt-get update && apt-get install -y \
     git \
     wget \
@@ -15,14 +15,20 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/* \
     && pip install --no-cache-dir -r requirements.txt
 
-# 複製專案文件
+# Monitoring tools (optional)
+RUN apt-get update && apt-get install -y \
+    htop \
+    tmux \
+    && pip install --no-cache-dir gpustat
+
+# Copy project files
 COPY . .
 
-# 設置環境變數
+# Set environment variables
 ENV PYTHONPATH=/app
 ENV CUDA_VISIBLE_DEVICES=0
 
-# 默認命令：啟動交互式 shell
+# Default command: start interactive shell
 CMD ["/bin/bash"]
 
-# 注意：此為開發用配置，若需部署到生產環境，請使用多階段構建來減小最終鏡像大小
+# Note: This is a development configuration. For production, use multi-stage build to reduce final image size
