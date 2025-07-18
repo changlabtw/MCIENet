@@ -102,7 +102,8 @@ class InceptionLayer(nn.Module):
             slope: float,
             dim_reduction_pool_ks: int,
             dim_reduction_pool_stride: int,
-            allow_unblance_padding: bool = False
+            allow_unblance_padding: bool = False,
+            attention_adaptive_branching: bool = False
             ):
         super(InceptionLayer, self).__init__()
 
@@ -177,8 +178,7 @@ class InceptionLayer(nn.Module):
 
     def forward(self, x):
         if self.info_retent_branch != None:
-            branch1 = self.info_retent_branch(x) 
-            branch1 = [branch1] 
+            branch1 = [self.info_retent_branch(x)] 
         else:
             branch1 = []
         
