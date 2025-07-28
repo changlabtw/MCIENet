@@ -13,7 +13,7 @@ train:
   optimizer: Adam # 'SGD, Adam, AdamW'
 model:
   extractor_mode: concat # concat, pairs
-  extractor_model: CNN # CNN, Transformer
+  extractor_model: CNN # CNN
   extractor_in_dim: 6000 # anchor_size*2
   extractor_hidden_size: 100
   extractor_output_dim: 100
