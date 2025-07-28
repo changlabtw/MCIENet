@@ -1,8 +1,21 @@
 #!/bin/bash
 
 # Define here the path to your conda installation
-# Usually it's in the home directory
+# Usually it's in the home directory, but you might need to change it
 CONDAPATH="$HOME/miniconda3"
+
+# Check if conda path exists
+if [ ! -d "$CONDAPATH" ]; then
+    echo "Error: Conda installation not found at $CONDAPATH"
+    echo "Please modify the CONDAPATH in this script to point to your conda installation directory."
+    echo "Common locations include:"
+    echo "  - $HOME/miniconda3"
+    echo "  - $HOME/anaconda3"
+    echo "  - /opt/conda"
+    echo "  - /usr/local/miniconda3"
+    echo "  - /usr/local/anaconda3"
+    exit 1
+fi
 
 # Source conda
 . "$CONDAPATH/etc/profile.d/conda.sh"

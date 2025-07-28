@@ -5,18 +5,29 @@ MCIENet: Multi-scale CNN-based Information Extraction from DNA Sequences for 3D 
 ![MCIENet Workflow](figures/fig1-a_Workflow.png)
 
 ## Table of Contents
-- [Getting Started](#getting-started)
-  - [Step 0: Clone the Repository](#step-0-clone-the-repository)
-  - [Step 1: Setup Environment](#step-1-setup-environment)
-  - [Step 2: Prepare Dataset](#step-2-prepare-dataset)
-    - [2.1 Generate Positive-Negative Pairs](#21-generate-pos-neg-pairs)
-    - [2.2 Generate Training Data](#22-generate-training-data)
-  - [Step 3: Model Training](#step-3-train)
-    - [3.1 BaseCNN](#31-basecnn)
-    - [3.2 MCIENet](#32-mcienet)
-  - [Step 4: Explainable AI (XAI) Analysis](#step-4-xai)
-- [References](#references)
-- [Citation](#citation)
+- [MCIENet](#mcienet)
+  - [Table of Contents](#table-of-contents)
+  - [Project Structure](#project-structure)
+  - [Getting Started](#getting-started)
+    - [Step 0: Clone the Repository](#step-0-clone-the-repository)
+    - [Step 1: Setup Environment](#step-1-setup-environment)
+      - [Option 1: Using Docker (Recommended)](#option-1-using-docker-recommended)
+      - [Option 2: Manual Setup with Scripts](#option-2-manual-setup-with-scripts)
+    - [Step 2: Prepare Dataset](#step-2-prepare-dataset)
+      - [Data Structure](#data-structure)
+      - [2.1 Generate Pos-Neg Pairs](#21-generate-pos-neg-pairs)
+        - [Key Components:](#key-components)
+        - [Requirements:](#requirements)
+        - [Processing Your Own Data](#processing-your-own-data)
+      - [2.2 Generate Training Data](#22-generate-training-data)
+    - [Step 3: Model Training](#step-3-model-training)
+      - [BaseCNN Model](#basecnn-model)
+      - [MCIENet Model](#mcienet-model)
+    - [Step 4: Explainable AI (XAI) Analysis](#step-4-explainable-ai-xai-analysis)
+      - [BaseCNN](#basecnn)
+      - [MCIENet](#mcienet-1)
+  - [References](#references)
+  - [Citation](#citation)
 
 ## Project Structure
 
@@ -141,7 +152,7 @@ The `scripts/1_get_neg-pos_data/` directory contains the data processing pipelin
 
 #### 2.2 Generate Training Data
 
-For this tutorial, we'll use the pre-processed data in `data/proc/gm12878_ctcf` to generate the training data in `data/train/gm12878_ctcf`.
+For this tutorial, we'll use the pre-processed data in `data/proc/gm12878_ctcf` to generate the training data in `data/train/gm12878_ctcf`. You must download DNA sequences data(`hg19.fa`) from UCSC.
 
 
 ```shell
