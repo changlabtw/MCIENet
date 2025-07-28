@@ -55,6 +55,7 @@ def get_args() -> argparse.Namespace:
 
     parser.add_argument('--retain_defualt_config', type=str2bool, default=True)
     parser.add_argument('--save_pred_result', type=str2bool, default=False)
+    parser.add_argument('--debug_mode', type=str2bool, default=False)
 
     args, unknown_args = parser.parse_known_args() # accept unkonw arg
 
@@ -101,6 +102,13 @@ def load_data(args, log:TextIO, eval_stage:bool) -> dict[str, DataLoader]:
     log_string(log, f"\t(test){f['test']['data'].shape}\n")
 
     g = set_seed()
+
+    if args.debug_mode:
+        from torch.utils.data import Subset
+        # Sample 1000 random indices for debug mode
+        debug_indices = torch.randperm(len(train_data))[:1000]
+        train_data = Subset(train_data, debug_indices)
+        log_string(log, f"[DEBUG MODE] Using {len(train_data)} samples for training\n")
 
     if eval_stage:
         train_loader = DataLoader(train_data, batch_size=args.train['val_batch_size'], shuffle=False, 
