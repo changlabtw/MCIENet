@@ -75,7 +75,7 @@ class DNAseq:
             ftype = "." + path.split(".")[-1]
         else:
             assert path[-3:] == ftype, f"fasta file doesn't match file type{ftype}"
-
+        
         if ftype == ".fa":
             _open = open(path, "rt")  # 換行方式: \r\n -> \n
         elif ftype == ".gz":
